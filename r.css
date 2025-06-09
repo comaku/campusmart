@@ -1,0 +1,181 @@
+body {
+    background:  #1D2430;
+    font-family: 'Josefin Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    animation: fadeIn 1s ease-in;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Wrapper with slide-up animation */
+.form-wrapper {
+    display: flex;
+    background-color: whitesmoke;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.8s ease-out;
+}
+
+/* Left side form */
+#form {
+    width: 50%;
+    padding: 30px;
+    font-size: 12px;
+    background-color: whitesmoke;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Animated top image inside form */
+.top-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 15%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    animation: shake 3s infinite;
+}
+
+/* Welcome text */
+.welcome-text {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #405be6;
+}
+
+/* Form inputs */
+.input-control {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 85%;
+    color: transparent;
+}
+
+
+.input-control input {
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 15px;
+    width: 100%;
+    color: transparent;
+    transition: border-color 0.3s ease;
+}
+
+.input-control input:focus {
+    outline: 0;
+    border-color: #405be6;
+}
+
+.input-control.success input {
+    border-color: #09c372;
+}
+
+.input-control.error input {
+    border-color: #ff3860;
+}
+
+.input-control .error {
+    color: #ff3860;
+    font-size: 9px;
+    height: 13px;
+}
+
+/* Submit button */
+#form button {
+    padding: 8px;
+    margin-top: 15px;
+    width: 85%;
+    color: white;
+    background-color: #405be6;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#form button:hover {
+    background-color: #2e46c0;
+}
+
+/* Right-side image */
+.side-image {
+    width: 50%;
+    object-fit: cover;
+    animation: fadeIn 1.5s ease-in;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .form-wrapper {
+        flex-direction: column;
+    }
+
+    .side-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    #form {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .top-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .welcome-text {
+        font-size: 22px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
