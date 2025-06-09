@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .cart-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .checkout-item {
+      display: flex;
+      gap: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 0.5rem;
+      background: #fafafa;
+      align-items: center;
+    }
+
+    .checkout-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .checkout-info {
+      flex: 1;
+    }
+
+    form {
+      margin-top: 20px;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    #confirmBtn {
+      background-color: #405be6;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    #confirmBtn:hover {
+      background-color: #218838;
+    }
+
+    .subtotal {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .checkout-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .checkout-img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Checkout</h2>
+
+  <!-- Cart display -->
+  <div class="cart-wrapper"></div>
+
+  <!-- Order Form -->
+  <form id="checkout-form">
+    <div class="form-group">
+      <input type="text" id="fullName" placeholder="Full Name" required />
+    </div>
+    <div class="form-group">
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+    </div>
+    <div class="form-group">
+      <input type="text" id="room" placeholder="Room Number" required />
+    </div>
+    <div class="form-group">
+      <input type="text" id="hall" placeholder="Hall" required />
+    </div>
+
+    <div class="subtotal" id="totalDisplay">Subtotal: ₦0</div>
+
+    <button type="submit" id="confirmBtn">Confirm Order</button>
+  </form>
+
+  <script>
+    class LocalCart {
+      static key = "cartItems";
+      static getLocalCartItems() {
+        const cart = localStorage.getItem(LocalCart.key);
+        if (!cart) return new Map();
+        return new Map(Object.entries(JSON.parse(cart)));
+      }
+      static clearCart() {
+        localStorage.removeItem(LocalCart.key);
+      }
+    }
+
+    function renderCartItems() {
+      const cartWrapper = document.querySelector('.cart-wrapper');
+      cartWrapper.innerHTML = "";
+      const items = LocalCart.getLocalCartItems();
+
+      let total = 0;
+
+      for (const [id, item] of items.entries()) {
+        const price = item.price * item.quantity;
+        total += price;
+
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('checkout-item');
+        cartItem.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" class="checkout-img">
+          <div class="checkout-info">
+            <h3>${item.name}</h3>
+            <p>Qty: ${item.quantity}</p>
+            <p>Price: ₦${price.toFixed(2)}</p>
+          </div>
+        `;
+        cartWrapper.appendChild(cartItem);
+      }
+
+      document.getElementById('totalDisplay').textContent = `Subtotal: ₦${total.toFixed(2)}`;
+      return total;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const total = renderCartItems();
+
+      document.getElementById('checkout-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const room = document.getElementById('room').value.trim();
+        const hall = document.getElementById('hall').value.trim();
+        const cart = LocalCart.getLocalCartItems();
+
+        if (!name || !phone || !room || !hall) {
+          alert("Please fill in all the fields.");
+          return;
+        }
+
+        const orderData = {
+          customer: { name, phone, room, hall },
+          cart: Object.fromEntries(cart),
+          total,
+          createdAt: new Date().toISOString()
+        };
+
+        // Submit to backend or API (example with console log)
+        console.log("Order submitted:", orderData);
+
+        // Clear cart
+        LocalCart.clearCart();
+
+        // Notify user and redirect
+        alert("🎉 Order confirmed! You will be contacted shortly.");
+        window.location.href = "kx.html"; // Update with your homepage
+      });
+    });
+  </script>
+
+</body>
+</html>
