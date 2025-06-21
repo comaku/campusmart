@@ -73,6 +73,7 @@ body {
   padding: 15px;
   width: 90%;
   transition: border-color 0.3s ease;
+  cursor: pointer;
 }
 
 .input-control input:focus {
