@@ -66,6 +66,16 @@ ScrollReveal().reveal(".subscribe form", {
   delay: 500,
 });
 
+
+  const menuBtn = document.querySelector(".nav__menu__btn");
+  const navLinks = document.querySelector(".nav__links");
+
+  menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+  });
+
+
 <script>
   AOS.init();
 </script>
+
