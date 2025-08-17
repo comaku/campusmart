@@ -150,12 +150,20 @@ nav {
   background-color: var(--primary-color);
   transform: translateY(-200%); /* hidden */
   transition: transform 0.5s ease-in-out;
-  z-index: 99;
+  z-index: 9999;
 }
 
 .nav__links.open {
   transform: translateY(0); /* visible */
 }
+.nav__links.open {
+  position: absolute; /* ensures it's taken out of flow */
+  top: 64px; /* adjust to match your nav height */
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
 
 .nav__links a {
   font-weight: 550;
@@ -792,6 +800,7 @@ header .btn {
 .nav__links.open {
   animation: slideIn 0.5s ease-out forwards;
 }
+
 
 
 
